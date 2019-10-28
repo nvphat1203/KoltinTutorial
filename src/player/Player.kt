@@ -3,7 +3,7 @@ package player
 import player.Loot
 import player.PlayerEducation
 
-open class Player(private val name: String, private val age: Int, private val salary: Int = 1_000_000) {
+open class Player(private val name: String, private val age: Int = 20, private val salary: Int = 1_000_000) {
     lateinit var  education: PlayerEducation
     private val inventory = ArrayList<Loot>()
 
@@ -28,13 +28,24 @@ open class Player(private val name: String, private val age: Int, private val sa
 
     fun dropLoot(name: String): Boolean {
         println("$name will be dropped")
-        return inventory.removeIf { it.getName() == name}
+        //return inventory.removeIf { it.getName() == name}
+        for (item in inventory) {
+            if (item.getName() == name) {
+                inventory.remove(item)
+                return true
+            }
+        }
+        return false
     }
 
     fun showPlayerInventory() {
+        var total = 0.0
         for (i in inventory) {
-            println("$name has: $inventory")
+            println("$name has: $i")
+            total += i.getValue()
         }
+
+        println("Total inventory value: $total  ")
     }
 
     fun createEducation(degree: String, school: String) {
